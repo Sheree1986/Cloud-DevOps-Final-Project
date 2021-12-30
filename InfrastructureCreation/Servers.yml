@@ -1,6 +1,6 @@
 Description: >
-    Ahmed Samir / FinalProject
-    Servers and EKS
+    Ahmed Samir / FinalProject  
+    Servers 
 
 Parameters:
 
@@ -12,7 +12,6 @@ Parameters:
         Description: AMI to use for our base image
         Type: String
         
-
 
 Resources:
 
