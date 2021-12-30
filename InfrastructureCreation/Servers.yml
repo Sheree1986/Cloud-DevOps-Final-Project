@@ -31,7 +31,7 @@ Resources:
             BlockDeviceMappings:
             - DeviceName: "/dev/sdk"
               Ebs:
-              VolumeSize: '10'
+               VolumeSize: '10'
 
     SecurityGroup:
         Type: AWS::EC2::SecurityGroup
@@ -49,12 +49,27 @@ Resources:
     WebAppGroup:
         Type: AWS::AutoScaling::AutoScalingGroup
         Properties:
-          VPCZoneIdentifier:
-          - Fn::ImportValue: 
-              !Sub "${EnvironmentName}-PUB-SN"
-          LaunchConfigurationName:
-            Ref: WebAppLaunchConfig
-          MinSize: '1'
-          MaxSize: '1'
-          TargetGroupARNs:
-          - Ref: WebAppTargetGroup
+            VPCZoneIdentifier:
+            - Fn::ImportValue: 
+                !Sub "${EnvironmentName}-PUB-SN"
+            LaunchConfigurationName:
+             Ref: BastionLaunchConfig
+            MinSize: '1'
+            MaxSize: '1'
+            TargetGroupARNs:
+            - Ref: WebAppTargetGroup
+
+    WebAppTargetGroup:
+        Type: AWS::ElasticLoadBalancingV2::TargetGroup
+        Properties:
+          HealthCheckIntervalSeconds: 10
+          HealthCheckPath: /
+          HealthCheckProtocol: HTTP
+          HealthCheckTimeoutSeconds: 8
+          HealthyThresholdCount: 2
+          Port: 80
+          Protocol: HTTP
+          UnhealthyThresholdCount: 5
+          VpcId: 
+            Fn::ImportValue:
+              Fn::Sub: "${EnvironmentName}-VPCID"
