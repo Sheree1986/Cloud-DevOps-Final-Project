@@ -16,32 +16,32 @@ Parameters:
 
 Resources:
 
-  BastionLaunchConfig:
-    Type: AWS::AutoScaling::LaunchConfiguration
-    Properties:
-      UserData:
-        Fn::Base64: !Sub |
-            #!/bin/bash
-            sudo su
-            apt-get update -y 
-      ImageId: !Ref AMItoUse
-      SecurityGroups:
-      - Ref: SecurityGroup
-      InstanceType: t2.medium
-      BlockDeviceMappings:
-      - DeviceName: "/dev/sdk"
-        Ebs:
+    BastionLaunchConfig:
+        Type: AWS::AutoScaling::LaunchConfiguration
+        Properties:
+        UserData:
+            Fn::Base64: !Sub |
+                #!/bin/bash
+                sudo su
+                apt-get update -y 
+        ImageId: !Ref AMItoUse
+        SecurityGroups:
+        - Ref: SecurityGroup
+        InstanceType: t2.medium
+        BlockDeviceMappings:
+        - DeviceName: "/dev/sdk"
+          Ebs:
           VolumeSize: '10'
 
-  SecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: Bastion Host Security Group
-      VpcId:
-        Fn::ImportValue:
-          !Sub "${EnvironmentName}-VPCID"
-      - IpProtocol: tcp
-        FromPort: 22
-        ToPort: 22
-        CidrIp: 0.0.0.0/0
+    SecurityGroup:
+        Type: AWS::EC2::SecurityGroup
+        Properties:
+        GroupDescription: Bastion Host Security Group
+        VpcId:
+            Fn::ImportValue:
+            !Sub "${EnvironmentName}-VPCID"
+        - IpProtocol: tcp
+            FromPort: 22
+            ToPort: 22
+            CidrIp: 0.0.0.0/0
 
