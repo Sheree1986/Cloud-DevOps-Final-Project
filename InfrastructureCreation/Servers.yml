@@ -13,7 +13,6 @@ Parameters:
         Type: String
         
 
-
 Resources:
 
     BastionLaunchConfig:
