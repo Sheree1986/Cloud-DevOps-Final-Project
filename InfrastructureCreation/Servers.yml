@@ -13,6 +13,7 @@ Parameters:
         Type: String
         
 
+
 Resources:
 
     BastionLaunchConfig:
@@ -38,7 +39,7 @@ Resources:
         GroupDescription: Bastion Host Security Group
         VpcId:
             Fn::ImportValue:
-            !Sub "${EnvironmentName}-VPCID"
+                !Sub "${EnvironmentName}-VPCID"
         SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 22
