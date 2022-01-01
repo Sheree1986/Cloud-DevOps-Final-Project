@@ -115,7 +115,7 @@ Resources:
         Type: 'AWS::EKS::Nodegroup'
         Properties:
           ClusterName: !Ref EKSCLUSTER
-          NodeRole: !GetAtt eksClusterRole.Arn  ##################################################
+          NodeRole:  !GetAtt eksNodeRole.Arn  ##################################################
           ScalingConfig:
             MinSize: 1
             DesiredSize: 2
@@ -138,3 +138,22 @@ Resources:
               - sts:AssumeRole
           ManagedPolicyArns:
             - arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
+            - arn:aws:iam::aws:policy/AmazonEKSServicePolicy
+
+    eksNodeRole:
+        Type: AWS::IAM::Role
+        Properties:
+          AssumeRolePolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                - ec2.amazonaws.com
+              Action:
+              - sts:AssumeRole
+          ManagedPolicyArns:
+            - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+            - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+            - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+            
