@@ -14,32 +14,23 @@ Parameters:
 
 Resources:
 
-    WebInstance:
-        Type: AWS::EC2::Instance
+    BastionLaunchConfig:
+        Type: AWS::AutoScaling::LaunchConfiguration
         Properties:
-          KeyName: publicpublic
-          UserData:
-              Fn::Base64: !Sub |
-                  #!/bin/bash
-                  sudo su
-                  apt-get update -y       
-          InstanceType: t2.nano
-          ImageId: !Ref AMItoUse
-          InstanceType: t2.medium          
-          KeyName: AWS_Ahmed
-          BlockDeviceMappings:
-          - DeviceName: "/dev/sdk"
-            Ebs:
-             VolumeSize: '10'     
-          NetworkInterfaces: 
-            - AssociatePublicIpAddress: "false"
-              DeviceIndex: "0"
-              GroupSet: 
-                - Ref: BastionSecurityGroup
-              SubnetId: 
-                Fn::ImportValue:
-                    !Sub "${EnvironmentName}-PUB-SN"
-
+            UserData:
+                Fn::Base64: !Sub |
+                    #!/bin/bash
+                    sudo su
+                    apt-get update -y 
+            ImageId: !Ref AMItoUse
+            KeyName: AWS_Ahmed
+            SecurityGroups:
+            - Ref: BastionSecurityGroup
+            InstanceType: t2.medium
+            BlockDeviceMappings:
+            - DeviceName: "/dev/sdk"
+              Ebs:
+               VolumeSize: '10'
 
     BastionSecurityGroup:
         Type: AWS::EC2::SecurityGroup
@@ -54,8 +45,32 @@ Resources:
               ToPort: 22
               CidrIp: 0.0.0.0/0
 
+    BastionASGroup:
+        Type: AWS::AutoScaling::AutoScalingGroup
+        Properties:
+            VPCZoneIdentifier:
+            - Fn::ImportValue: !Sub "${EnvironmentName}-PUB-SN"
+            LaunchConfigurationName:
+             Ref: BastionLaunchConfig
+            MinSize: '1'
+            MaxSize: '1'
+            TargetGroupARNs:
+            - Ref:  BastionTargetGroup
 
-
+    BastionTargetGroup:
+        Type: AWS::ElasticLoadBalancingV2::TargetGroup
+        Properties:
+          HealthCheckIntervalSeconds: 10
+          HealthCheckPath: /
+          HealthCheckProtocol: HTTP
+          HealthCheckTimeoutSeconds: 8
+          HealthyThresholdCount: 2
+          Port: 80
+          Protocol: HTTP
+          UnhealthyThresholdCount: 5
+          VpcId: 
+            Fn::ImportValue:
+              Fn::Sub: "${EnvironmentName}-VPCID"
   #############################################################
     EKSSecurityGroup:
         Type: AWS::EC2::SecurityGroup
@@ -67,12 +82,15 @@ Resources:
           VpcId:
                 Fn::ImportValue:
                     !Sub "${EnvironmentName}-VPCID"
-          SecurityGroupIngress:
-            IpProtocol: tcp
-            FromPort: 0
-            ToPort: 65535
-            SourceSecurityGroupId: !Ref BastionSecurityGroup
-            
+
+    EKSSecurityGroupIngress:
+        Type: AWS::EC2::SecurityGroupIngress
+        Properties:
+          GroupId: !Ref EKSSecurityGroup
+          IpProtocol: tcp
+          FromPort: 0
+          ToPort: 65535
+          SourceSecurityGroupId: !Ref EKSSecurityGroup
 
     EKSCLuster:
         Type: 'AWS::EKS::Cluster'
