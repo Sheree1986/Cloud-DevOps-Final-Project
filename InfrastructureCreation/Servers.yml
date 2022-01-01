@@ -32,7 +32,7 @@ Resources:
             Ebs:
              VolumeSize: '10'     
           NetworkInterfaces: 
-            - AssociatePublicIpAddress: "false"
+            - AssociatePublicIpAddress: "true"
               DeviceIndex: "0"
               GroupSet: 
                 - Ref: BastionSecurityGroup
