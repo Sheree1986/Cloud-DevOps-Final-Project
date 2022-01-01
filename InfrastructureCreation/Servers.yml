@@ -100,7 +100,7 @@ Resources:
         Type: 'AWS::EKS::Cluster'
         Properties:
           Name: PROD
-          Version: 1.21.2
+          Version: 1.21
           RoleArn: !GetAtt eksClusterRole.Arn ##################################################
           ResourcesVpcConfig:
             SecurityGroupIds:
@@ -122,7 +122,7 @@ Resources:
             MaxSize: 3
           Subnets:
             - Fn::ImportValue: !Sub ${EnvironmentName}-PRI1-SN
-            - Fn::ImportValue: !Sub ${EnvironmentName}-PRI1-SN
+            - Fn::ImportValue: !Sub ${EnvironmentName}-PRI2-SN
 
     eksClusterRole:
         Type: AWS::IAM::Role
