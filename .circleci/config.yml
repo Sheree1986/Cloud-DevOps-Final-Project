@@ -12,9 +12,8 @@ jobs:
             python3 -m venv ~/.devops
             source ~/.devops/bin/activate
             which python
-
       - run:
-          name: lint code
+          name: code linting 
           command: |            
             make install
             make lint
