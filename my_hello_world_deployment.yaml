@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my_hello_world-deployment
+  name: myhelloworld-deployment
   labels:
     env: PROD
 spec:
@@ -15,7 +15,7 @@ spec:
         env: PROD
     spec:
       containers:
-      - name: my_hello_world
+      - name: myhelloworld
         image: my_hello_world
         ports:
         - containerPort: 80
