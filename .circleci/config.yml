@@ -13,6 +13,7 @@ jobs:
             source ~/.devops/bin/activate
             which python
             make install
+            make lint
 workflows:
   default:
     jobs:
