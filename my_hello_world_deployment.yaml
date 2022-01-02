@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: myhelloworld
-        image: my_hello_world
+        image: ahmedsamir2021/my_hello_world
         ports:
         - containerPort: 80
