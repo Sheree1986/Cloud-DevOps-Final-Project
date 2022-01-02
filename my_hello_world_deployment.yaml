@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my_hello_world-deployment
+  labels:
+    env: PROD
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      env: PROD
+  template:
+    metadata:
+      labels:
+        env: PROD
+    spec:
+      containers:
+      - name: my_hello_world
+        image: my_hello_world
+        ports:
+        - containerPort: 80
