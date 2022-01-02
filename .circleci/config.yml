@@ -12,8 +12,8 @@ jobs:
             python3 -m venv ~/.devops
             source ~/.devops/bin/activate
             which python
-		
-
+            make install
+	
   
 workflows:
   default:
