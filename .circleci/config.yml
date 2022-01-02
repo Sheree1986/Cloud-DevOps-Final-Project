@@ -23,11 +23,10 @@ jobs:
             
       
       
-  upload-docker-image:
+
   
 workflows:
   default:
     jobs:
       - build-docker-image
-      - upload-docker-image:
-          requires: [build-docker-image]
+
