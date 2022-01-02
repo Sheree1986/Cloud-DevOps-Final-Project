@@ -17,6 +17,11 @@ jobs:
           command: |            
             make install
             make lint
+      - run:
+          name: code building 
+          command: |            
+            docker build --tag=my_hello_world .
+            docker image ls
 workflows:
   default:
     jobs:
