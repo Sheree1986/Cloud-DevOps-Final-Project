@@ -13,7 +13,8 @@ jobs:
             source ~/.devops/bin/activate
             which python
             pip install --upgrade pip
-      
+            which pip
+            
       
 
   
