@@ -13,8 +13,6 @@ jobs:
             source ~/.devops/bin/activate
             which python
             make install
-	
-  
 workflows:
   default:
     jobs:
