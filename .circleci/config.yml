@@ -9,8 +9,7 @@ jobs:
       - run:
           name: install dependenciess
           command: |
-            apt-get install docker
-            service docker start
+            which docker
             python3 -m venv ~/.devops
             source ~/.devops/bin/activate
             which python
