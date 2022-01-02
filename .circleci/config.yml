@@ -14,7 +14,8 @@ jobs:
             which python
             pip install --upgrade pip
             which pip
-            
+            pip install -r requirements.txt
+            which flask
       
 
   
