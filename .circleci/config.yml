@@ -19,7 +19,8 @@ jobs:
             make lint
       - persist_to_workspace:
           root: ~/
-          
+          paths:
+            - ~/.devops         
   build-docker-image2:
     docker:
       - image: docker
