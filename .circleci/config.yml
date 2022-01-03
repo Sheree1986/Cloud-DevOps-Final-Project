@@ -9,14 +9,19 @@ jobs:
       - run:
           name: install dependenciess
           command: |
-            yum install docker-ce docker-ce-cli containerd.io
             python3 -m venv ~/.devops
             source ~/.devops/bin/activate
             which python
             which pip
             ls -lrth          
             make install
-            make lint            
+            make lint   
+      - run:
+          name: code linting 
+          command: |      
+            source ~/.devops/bin/activate
+            make install
+            make lint             
       - run:
           name: code building 
           command: |            
