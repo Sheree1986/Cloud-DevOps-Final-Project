@@ -32,8 +32,24 @@ jobs:
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker tag my_hello_world $DOCKER_USER/my_hello_world
             docker push ahmedsamir2021/my_hello_world:latest
+            
+  deploy-docker-image:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: configure aws 
+          command: |
+            aws configure set aws_access_key_id $ACCESS_KEY_ID
+            aws configure set aws_secret_access_key $SECRET_ACCESS_KEY
+            aws configure set region $REGION
+            aws ec2 describe-instances
+          
 workflows:
   default:
     jobs:
       - build-docker-image
+      - deploy-docker-image:
+          requires: [build-docker-image]      
 
