@@ -9,7 +9,6 @@ jobs:
       - run:
           name: install dependenciess
           command: |
-            apk add docker-cli
             python3 -m venv ~/.devops
             source ~/.devops/bin/activate
             which python
@@ -18,11 +17,9 @@ jobs:
           command: |            
             make install
             make lint
-      - run:
-          name: code building 
-          command: |            
-            docker build --tag=my_hello_world .
-            docker image ls
+      - persist_to_workspace:
+          root: ~/
+          
 workflows:
   default:
     jobs:
