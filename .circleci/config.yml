@@ -14,8 +14,11 @@ jobs:
             which python
             which pip
             ls -lrth
+      - run:
+          name: code linting 
+          command: |            
             make install
-            make lint
+            make lint            
       - run:
           name: code building 
           command: |            
