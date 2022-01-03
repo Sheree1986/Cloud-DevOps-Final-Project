@@ -54,7 +54,7 @@ jobs:
             kubectl version --short --client
             aws eks update-kubeconfig --name PROD --region $REGION
       - run:
-          name: deploy new image
+          name: deploy new imag
           command: |            
             kubectl apply -f ./my_hello_world_svc.yml
             kubectl get service
