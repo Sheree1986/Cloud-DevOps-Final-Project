@@ -9,6 +9,7 @@ jobs:
       - run:
           name: install dependenciess
           command: |
+            apk add docker-cli
             python3 -m venv ~/.devops
             source ~/.devops/bin/activate
             which python
