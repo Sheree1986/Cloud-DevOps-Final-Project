@@ -30,6 +30,8 @@ jobs:
           command: |   
             docker image ls	 
             docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker tag my_hello_world $DOCKER_USER/my_hello_world
+            docker push ahmedsamir2021/my_hello_world:latest
 workflows:
   default:
     jobs:
