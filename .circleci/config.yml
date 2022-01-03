@@ -13,9 +13,6 @@ jobs:
             source ~/.devops/bin/activate
             which python
             which pip
-      - run:
-          name: code linting 
-          command: |
             make install
             make lint
       - run:
