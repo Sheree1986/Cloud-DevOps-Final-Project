@@ -20,6 +20,16 @@ jobs:
       - persist_to_workspace:
           root: ~/
           
+  build-docker-image2:
+    docker:
+      - image: docker
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/      
+      - run:
+          ls -lrth
+
 workflows:
   default:
     jobs:
