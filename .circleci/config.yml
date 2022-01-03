@@ -7,7 +7,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: install dependenciess
+          name: install dependencies
           command: |
             python3 -m venv ~/.devops
             source ~/.devops/bin/activate
@@ -56,7 +56,7 @@ jobs:
             if [[ `kubectl get deployment | grep myhelloworld` = *"myhelloworld"* ]]
             then
                   echo "i am in"
-                  kubectl apply -f my_hello_world_deployment.yml
+                  kubectl rollout restart deployment/myhelloworld-deployment
             else
                   echo "i am out"
                   kubectl apply -f ./my_hello_world_svc.yml
